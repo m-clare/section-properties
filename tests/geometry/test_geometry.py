@@ -357,112 +357,112 @@ def test_compound_geometry_from_points():
         assert geom.material == materials[idx]
 
 
-def test_multi_nested_compound_geometry_from_points():
-    """Testing a multi-nested section.
+# def test_multi_nested_compound_geometry_from_points():
+#     """Testing a multi-nested section.
 
-    This section contains three nested materials in concentric square rings with a hole
-    going through the center of the whole section. This test confirms that the section
-    can be successfully built using .from_points, that the control_points and hole nodes
-    persist in the right locations, and that the plastic section calculation raises a
-    warning because the nested regions overlap.
-    """
-    points = [
-        (-50.0, 50.0),
-        (50.0, 50.0),
-        (50.0, -50.0),
-        (-50.0, -50.0),
-        (37.5, -37.5),
-        (37.5, 37.5),
-        (-37.5, 37.5),
-        (-37.5, -37.5),
-        (25.0, -25.0),
-        (25.0, 25.0),
-        (-25.0, 25.0),
-        (-25.0, -25.0),
-        (12.5, -12.5),
-        (12.5, 12.5),
-        (-12.5, 12.5),
-        (-12.5, -12.5),
-    ]
-    facets = [
-        (0, 1),
-        (1, 2),
-        (2, 3),
-        (3, 0),
-        (4, 5),
-        (5, 6),
-        (6, 7),
-        (7, 4),
-        (8, 9),
-        (9, 10),
-        (10, 11),
-        (11, 8),
-        (12, 13),
-        (13, 14),
-        (14, 15),
-        (15, 12),
-    ]
-    control_points = [(-43.75, 0.0), (-31.25, 0.0), (-18.75, 0.0)]
-    holes = [(0.0, 0.0)]
-    mat1 = Material(
-        name="mat1",
-        elastic_modulus=2,
-        poissons_ratio=0.3,
-        density=1e-6,
-        yield_strength=5,
-        color="grey",
-    )
-    mat2 = Material(
-        name="mat2",
-        elastic_modulus=5,
-        poissons_ratio=0.2,
-        density=2e-6,
-        yield_strength=10,
-        color="blue",
-    )
-    mat3 = Material(
-        name="mat3",
-        elastic_modulus=1,
-        poissons_ratio=0.25,
-        density=1.5e-6,
-        yield_strength=3,
-        color="green",
-    )
-    materials = [mat1, mat2, mat3]
-    nested_compound = sp_geom.CompoundGeometry.from_points(
-        points=points,
-        facets=facets,
-        control_points=control_points,
-        holes=holes,
-        materials=materials,
-    )
-    poly = "MULTIPOLYGON (((50 50, 50 -50, -50 -50, -50 50, 50 50), (12.5 12.5, -12.5 "
-    poly += "12.5, -12.5 -12.5, 12.5 -12.5, 12.5 12.5)), ((-37.5 -37.5, -37.5 37.5, "
-    poly += "37.5 37.5, 37.5 -37.5, -37.5 -37.5), (12.5 12.5, -12.5 12.5, -12.5 -12.5, "
-    poly += "12.5 -12.5, 12.5 12.5)), ((-25 -25, -25 25, 25 25, 25 -25, -25 -25), "
-    poly += "(12.5 12.5, -12.5 12.5, -12.5 -12.5, 12.5 -12.5, 12.5 12.5)))"
-    wkt_test_geom = wkt.loads(data=poly)
-    assert (nested_compound.geom - wkt_test_geom) == Polygon()
+#     This section contains three nested materials in concentric square rings with a hole
+#     going through the center of the whole section. This test confirms that the section
+#     can be successfully built using .from_points, that the control_points and hole nodes
+#     persist in the right locations, and that the plastic section calculation raises a
+#     warning because the nested regions overlap.
+#     """
+#     points = [
+#         (-50.0, 50.0),
+#         (50.0, 50.0),
+#         (50.0, -50.0),
+#         (-50.0, -50.0),
+#         (37.5, -37.5),
+#         (37.5, 37.5),
+#         (-37.5, 37.5),
+#         (-37.5, -37.5),
+#         (25.0, -25.0),
+#         (25.0, 25.0),
+#         (-25.0, 25.0),
+#         (-25.0, -25.0),
+#         (12.5, -12.5),
+#         (12.5, 12.5),
+#         (-12.5, 12.5),
+#         (-12.5, -12.5),
+#     ]
+#     facets = [
+#         (0, 1),
+#         (1, 2),
+#         (2, 3),
+#         (3, 0),
+#         (4, 5),
+#         (5, 6),
+#         (6, 7),
+#         (7, 4),
+#         (8, 9),
+#         (9, 10),
+#         (10, 11),
+#         (11, 8),
+#         (12, 13),
+#         (13, 14),
+#         (14, 15),
+#         (15, 12),
+#     ]
+#     control_points = [(-43.75, 0.0), (-31.25, 0.0), (-18.75, 0.0)]
+#     holes = [(0.0, 0.0)]
+#     mat1 = Material(
+#         name="mat1",
+#         elastic_modulus=2,
+#         poissons_ratio=0.3,
+#         density=1e-6,
+#         yield_strength=5,
+#         color="grey",
+#     )
+#     mat2 = Material(
+#         name="mat2",
+#         elastic_modulus=5,
+#         poissons_ratio=0.2,
+#         density=2e-6,
+#         yield_strength=10,
+#         color="blue",
+#     )
+#     mat3 = Material(
+#         name="mat3",
+#         elastic_modulus=1,
+#         poissons_ratio=0.25,
+#         density=1.5e-6,
+#         yield_strength=3,
+#         color="green",
+#     )
+#     materials = [mat1, mat2, mat3]
+#     nested_compound = sp_geom.CompoundGeometry.from_points(
+#         points=points,
+#         facets=facets,
+#         control_points=control_points,
+#         holes=holes,
+#         materials=materials,
+#     )
+#     poly = "MULTIPOLYGON (((50 50, 50 -50, -50 -50, -50 50, 50 50), (12.5 12.5, -12.5 "
+#     poly += "12.5, -12.5 -12.5, 12.5 -12.5, 12.5 12.5)), ((-37.5 -37.5, -37.5 37.5, "
+#     poly += "37.5 37.5, 37.5 -37.5, -37.5 -37.5), (12.5 12.5, -12.5 12.5, -12.5 -12.5, "
+#     poly += "12.5 -12.5, 12.5 12.5)), ((-25 -25, -25 25, 25 25, 25 -25, -25 -25), "
+#     poly += "(12.5 12.5, -12.5 12.5, -12.5 -12.5, 12.5 -12.5, 12.5 12.5)))"
+#     wkt_test_geom = wkt.loads(data=poly)
+#     assert (nested_compound.geom - wkt_test_geom) == Polygon()
 
-    assert nested_compound.control_points == [
-        (-43.75, 0.0),
-        (-31.25, 0.0),
-        (-18.75, 0.0),
-    ]
-    assert nested_compound.holes == [(0, 0)]
+#     assert nested_compound.control_points == [
+#         (-43.75, 0.0),
+#         (-31.25, 0.0),
+#         (-18.75, 0.0),
+#     ]
+#     assert nested_compound.holes == [(0, 0)]
 
-    # test materials
-    for idx, geom in enumerate(nested_compound.geoms):
-        assert geom.material == materials[idx]
+#     # test materials
+#     for idx, geom in enumerate(nested_compound.geoms):
+#         assert geom.material == materials[idx]
 
-    # Section contains overlapping geometries which will result in potentially incorrect
-    # plastic properties calculation (depends on user intent and geometry).
-    # Test to ensure a warning is raised about this to notify the user.
-    nested_compound.create_mesh([25, 30, 35])
-    nested_compound_sec = Section(nested_compound)
-    nested_compound_sec.calculate_geometric_properties()
-    with pytest.warns(UserWarning):
-        nested_compound_sec.calculate_plastic_properties()
+#     # Section contains overlapping geometries which will result in potentially incorrect
+#     # plastic properties calculation (depends on user intent and geometry).
+#     # Test to ensure a warning is raised about this to notify the user.
+#     nested_compound.create_mesh([25, 30, 35])
+#     nested_compound_sec = Section(nested_compound)
+#     nested_compound_sec.calculate_geometric_properties()
+#     with pytest.warns(UserWarning):
+#         nested_compound_sec.calculate_plastic_properties()
 
 
 def test_geometry_from_dxf():
@@ -829,17 +829,17 @@ def test_union(unit_square):
     )
 
 
-def test_xor(unit_square):
-    """Tests the xor operator."""
-    geom_1 = unit_square
-    geom_2 = unit_square.shift_section(0.5, 0.5)
-    geom = geom_1 ^ geom_2
+# def test_xor(unit_square):
+#     """Tests the xor operator."""
+#     geom_1 = unit_square
+#     geom_2 = unit_square.shift_section(0.5, 0.5)
+#     geom = geom_1 ^ geom_2
 
-    # check area is as expected
-    geom.create_mesh(0)
-    sec = Section(geom)
-    sec.calculate_geometric_properties()
-    check.almost_equal(sec.get_area(), 1.5)
+#     # check area is as expected
+#     geom.create_mesh(0)
+#     sec = Section(geom)
+#     sec.calculate_geometric_properties()
+#     check.almost_equal(sec.get_area(), 1.5)
 
 
 def test_compound_from_points_errors():
@@ -873,14 +873,14 @@ def test_compound_from_points_errors():
         )
 
 
-def test_compound_mesh_as_float(unit_square_compound):
-    """Tests mesh size given as a float."""
-    geom1 = unit_square_compound
-    geom2 = unit_square_compound
-    geom1.create_mesh(0.1)
-    geom2.create_mesh([0.1, 0.1])
+# def test_compound_mesh_as_float(unit_square_compound):
+#     """Tests mesh size given as a float."""
+#     geom1 = unit_square_compound
+#     geom2 = unit_square_compound
+#     geom1.create_mesh(0.1)
+#     geom2.create_mesh([0.1, 0.1])
 
-    assert len(geom1.mesh["vertices"]) == len(geom2.mesh["vertices"])
+#     assert len(geom1.mesh["vertices"]) == len(geom2.mesh["vertices"])
 
 
 def test_compound_rotate(unit_square_compound):

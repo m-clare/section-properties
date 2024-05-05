@@ -5,7 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-import triangle
+# import triangle
+import cytriangle
 
 
 @dataclass(eq=True, frozen=True)
@@ -137,10 +138,12 @@ def create_mesh(
 
     tri["regions"] = regions  # set regions
 
+    print(f"pq{min_angle:.1f}Aao2")
+
     # generate mesh
     if coarse:
-        mesh = triangle.triangulate(tri, "pAo2")
+        mesh = cytriangle.triangulate(tri, "pAo2")
     else:
-        mesh = triangle.triangulate(tri, f"pq{min_angle:.1f}Aao2")
+        mesh = cytriangle.triangulate(tri, f"pq{min_angle:.1f}Aao2")
 
     return mesh  # type: ignore
